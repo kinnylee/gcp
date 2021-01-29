@@ -27,8 +27,8 @@ pipeline {
         stage("推送docker镜像") {
             steps {
                 script {
-                    tag =  "commit_id"
-                    sh "docker tags ${IMAGE_REPO}/gcp-application:${tag} ${IMAGE_REPO}/gcp-application:latest"
+                    env.imageTag = sh (script: 'git rev-parse --short HEAD ${GIT_COMMIT}', returnStdout: true).trim()
+                    sh "docker tag ${IMAGE_REPO}/gcp-application:${imageTag} ${IMAGE_REPO}/gcp-application:latest"
                     sh "docker login packages.glodon.com -u mcdev -p Glodon@0605"
                     sh "docker push ${image_name_tag}"
 
