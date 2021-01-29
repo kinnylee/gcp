@@ -5,6 +5,7 @@ pipeline {
     environment {
         IMAGE_REPO = "packages.glodon.com/docker-cornerstoneplatform-releases"
     }
+
     stages {
         // 1.同步代码，执行mvn编译安装
         stage("编译代码") {
