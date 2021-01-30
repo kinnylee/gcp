@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label any
-    }
+    agent any
     environment {
         IMAGE_REPO = "packages.glodon.com/docker-cornerstoneplatform-releases"
         APP_NAME = "gcp-application"
