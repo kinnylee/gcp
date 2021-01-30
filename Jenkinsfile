@@ -50,14 +50,16 @@ pipeline {
         stage("渲染编排文件，并提交到git") {
             steps {
                 script {
+                    K8S_REPO = "http://root@123qweASD@192.168.162.12/root/gcp-kubernetes.git"
+                    sh "git clone ${K8S_REPO}"
                     DIR = "${APP_NAME}"
-                    sh "mkdir -p ${DIR}"
-                    sh "cp -r manifests/kubectl/* ${DIR}"
-                    sh "cd ${DIR}"
+                    sh "mkdir -p gcp-kubernetes/${DIR}"
+                    sh "cp -r manifests/kubectl/* gcp-kubernetes/${DIR}"
+                    sh "cd gcp-kubernetes"
                     sh "sed -i 's#{{APP_NAME}}#${APP_NAME}#g' `grep {{APP_NAME}} -rl ${DIR}`"
-                    sh "cat ${DIR}/deployment.yaml"
                     sh "sed -i 's#{{IMAGE_NAME}}#${NEW_IMAGE_NAME}#g' `grep {{IMAGE_NAME}} -rl ${DIR}`"
                     sh "cat ${DIR}/deployment.yaml"
+                    sh "git push origin master"
                 }
             }
         }
