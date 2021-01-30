@@ -31,7 +31,7 @@ pipeline {
                 script {
                     COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse --short HEAD')
                     NEW_IMAGE_NAME = "${IMAGE_REPO}/${APP_NAME}:${COMMIT_ID}"
-                    sh "docker tag ${IMAGE_NAME} ${newImageName}"
+                    sh "docker tag ${IMAGE_NAME} ${NEW_IMAGE_NAME}"
                     sh "docker login packages.glodon.com -u mcdev -p Glodon@0605"
                     sh "docker push ${NEW_IMAGE_NAME}"
 
