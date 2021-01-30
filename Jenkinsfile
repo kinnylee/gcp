@@ -4,6 +4,7 @@ pipeline {
     }
     environment {
         IMAGE_REPO = "packages.glodon.com/docker-cornerstoneplatform-releases"
+        IMAGE_NAME = "${IMAGE_REPO}/gcp-application:latest"
     }
 
     stages {
@@ -18,7 +19,7 @@ pipeline {
         stage("构建dockder镜像") {
             steps {
                 dir(".") {
-                    sh "docker build -t ${IMAGE_REPO}/gcp-application:latest ."
+                    sh "docker build -t ${IMAGE_NAME} ."
                 }
             }
         }
@@ -28,7 +29,8 @@ pipeline {
             steps {
                 script {
                     env.imageTag = sh (script: 'git rev-parse --short HEAD ${GIT_COMMIT}', returnStdout: true).trim()
-                    sh "docker tag ${IMAGE_REPO}/gcp-application:${imageTag} ${IMAGE_REPO}/gcp-application:latest"
+                    env.newImageName = ${IMAGE_REPO}/gcp-application:${imageTag}
+                    sh "docker tag ${IMAGE_NAME} ${newImageName}"
                     sh "docker login packages.glodon.com -u mcdev -p Glodon@0605"
                     sh "docker push ${image_name_tag}"
 
