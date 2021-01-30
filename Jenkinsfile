@@ -55,6 +55,7 @@ pipeline {
                     sh "cp -r manifests/kubectl/* ${DIR}"
                     sh "cd ${DIR}"
                     sh "sed -i 's/{{APP_NAME}}/\"${APP_NAME}\"/g' `grep {{APP_NAME}} -rl ${DIR}`"
+                    sh "cat ${DIR}/deployment.yaml"
                     sh "sed -i 's/{{IMAGE_NAME}}/${NEW_IMAGE_NAME}/g' `grep {{IMAGE_NAME}} -rl ${DIR}`"
                     sh "cat ${DIR}/deployment.yaml"
                 }
