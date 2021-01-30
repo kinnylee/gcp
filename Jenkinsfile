@@ -50,9 +50,12 @@ pipeline {
         stage("渲染编排文件，并提交到git") {
             steps {
                 script {
-                    sh "cd manifests/kubectl"
-                    sh "sed -i 's/{{APP_NAME}}/${APP_NAME}/' ."
-                    sh "sed -i 's/{{IMAGE_NAME}}/${NEW_IMAGE_NAME}/' ."
+                    DIR = ${APP_NAME}
+                    sh "mkdir ${DIR}"
+                    sh "cp -r manifests/kubectl ${DIR}"
+                    sh "sed -i 's/{{APP_NAME}}/${APP_NAME}/g' `grep {{APP_NAME}} -rl ${DIR}`"
+                    sh "sed -i 's/{{IMAGE_NAME}}/${NEW_IMAGE_NAME}/g' `grep {{IMAGE_NAME}} -rl ${DIR}`"
+                    sh "cat ${DIR}/deployment.yaml"
                 }
             }
         }
