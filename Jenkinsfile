@@ -1,4 +1,5 @@
 pipeline {
+    agent any
 //     agent {
 //         label 'jnlp-k8s-ali-sh-int'
 //     }
