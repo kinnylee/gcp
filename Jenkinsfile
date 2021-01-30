@@ -56,7 +56,7 @@ pipeline {
                     sh "cd ${DIR}"
                     sh "sed -i 's#{{APP_NAME}}#${APP_NAME}#g' `grep {{APP_NAME}} -rl ${DIR}`"
                     sh "cat ${DIR}/deployment.yaml"
-                    sh "sed -i 's#{{IMAGE_NAME}}#${COMMIT_ID}#g' `grep {{IMAGE_NAME}} -rl ${DIR}`"
+                    sh "sed -i 's#{{IMAGE_NAME}}#${APP_NAME}#g' `grep {{IMAGE_NAME}} -rl ${DIR}`"
                     sh "cat ${DIR}/deployment.yaml"
                 }
             }
