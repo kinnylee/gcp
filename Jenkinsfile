@@ -1,7 +1,8 @@
 pipeline {
-    agent {
-        label 'jnlp-k8s-ali-sh-int'
-    }
+//     agent {
+//         label 'jnlp-k8s-ali-sh-int'
+//     }
+    agent any
     environment {
         IMAGE_REPO = "packages.glodon.com/docker-cornerstoneplatform-releases"
         APP_NAME = "gcp-application"
