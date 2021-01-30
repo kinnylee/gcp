@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{APP_NAME}}
+spec:
+  rules:
+    - host: {{APP_NAME}}.glodon.com
+      http:
+        paths:
+          - backend:
+              serviceName: {{APP_NAME}}
+              servicePort: 80

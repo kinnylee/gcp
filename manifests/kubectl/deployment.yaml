@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: {{APP_NAME}}
+  name: {{APP_NAME}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{APP_NAME}}
+  template:
+    metadata:
+      labels:
+        app: {{APP_NAME}}
+    spec:
+      containers:
+        - image: {{IMAGE}}
+          imagePullPolicy: IfNotPresent
+          name: {{APP_NAME}}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources: {}

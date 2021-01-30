@@ -4,7 +4,8 @@ pipeline {
     }
     environment {
         IMAGE_REPO = "packages.glodon.com/docker-cornerstoneplatform-releases"
-        IMAGE_NAME = "${IMAGE_REPO}/gcp-application:latest"
+        APP_NAME = "gcp-application"
+        IMAGE_NAME = "${IMAGE_REPO}/${APP_NAME}:latest"
     }
 
     stages {
@@ -28,11 +29,11 @@ pipeline {
         stage("推送docker镜像") {
             steps {
                 script {
-                    commitId = sh(returnStdout: true, script: 'git rev-parse --short HEAD')
-                    newImageName = "${IMAGE_REPO}/gcp-application:${commitId}"
+                    COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse --short HEAD')
+                    NEW_IMAGE_NAME = "${IMAGE_REPO}/${APP_NAME}:${COMMIT_ID}"
                     sh "docker tag ${IMAGE_NAME} ${newImageName}"
                     sh "docker login packages.glodon.com -u mcdev -p Glodon@0605"
-                    sh "docker push ${newImageName}"
+                    sh "docker push ${NEW_IMAGE_NAME}"
 
                 }
             }
@@ -42,6 +43,17 @@ pipeline {
         stage("清除过期镜像") {
             steps {
                 sh "docker system prune -f"
+            }
+        }
+
+        // 5. 提交编排文件
+        stage("渲染编排文件，并提交到git") {
+            steps {
+                script {
+                    sh "cd manifests/kubectl"
+                    sh "sed -i 's/{{APP_NAME}}/${APP_NAME}/' ."
+                    sh "sed -i 's/{{IMAGE_NAME}}/${NEW_IMAGE_NAME}/' ."
+                }
             }
         }
     }
