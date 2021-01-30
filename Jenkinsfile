@@ -50,7 +50,7 @@ pipeline {
         stage("渲染编排文件，并提交到git") {
             steps {
                 script {
-                    K8S_REPO = "http://root@123qweASD@192.168.162.12/root/gcp-kubernetes.git"
+                    K8S_REPO = "http://root:123qweASD@192.168.162.12/root/gcp-kubernetes.git"
                     sh "git clone ${K8S_REPO}"
                     DIR = "${APP_NAME}"
                     sh "mkdir -p gcp-kubernetes/${DIR}"
