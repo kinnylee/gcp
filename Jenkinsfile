@@ -1,6 +1,5 @@
 pipeline {
     agent {
-//         label 'jnlp-k8s-ali-sh-int'
         label any
     }
     environment {
