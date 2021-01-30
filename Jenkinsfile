@@ -56,6 +56,8 @@ pipeline {
                     sh "mkdir -p gcp-kubernetes/${DIR}"
                     sh "cp -r manifests/kubectl/* gcp-kubernetes/${DIR}"
                     sh "cd gcp-kubernetes"
+                    sh "ls"
+                    sh "tree"
                     sh "sed -i 's#{{APP_NAME}}#${APP_NAME}#g' `grep {{APP_NAME}} -rl ${DIR}`"
                     sh "sed -i 's#{{IMAGE_NAME}}#${NEW_IMAGE_NAME}#g' `grep {{IMAGE_NAME}} -rl ${DIR}`"
                     sh "cat ${DIR}/deployment.yaml"
