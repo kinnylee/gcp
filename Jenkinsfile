@@ -50,7 +50,7 @@ pipeline {
         stage("渲染编排文件，并提交到git") {
             steps {
                 script {
-                    DIR = ${APP_NAME}
+                    DIR = "${APP_NAME}"
                     sh "mkdir ${DIR}"
                     sh "cp -r manifests/kubectl ${DIR}"
                     sh "sed -i 's/{{APP_NAME}}/${APP_NAME}/g' `grep {{APP_NAME}} -rl ${DIR}`"
