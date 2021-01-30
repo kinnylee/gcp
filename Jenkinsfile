@@ -51,7 +51,7 @@ pipeline {
             steps {
                 script {
                     DIR = "${APP_NAME}"
-                    sh "mkdir ${DIR}"
+                    sh "mkdir -p ${DIR}"
                     sh "cp -r manifests/kubectl ${DIR}"
                     sh "sed -i 's/{{APP_NAME}}/\"${APP_NAME}\"/g' `grep {{APP_NAME}} -rl ${DIR}`"
                     sh "sed -i 's/{{IMAGE_NAME}}/${NEW_IMAGE_NAME}/g' `grep {{IMAGE_NAME}} -rl ${DIR}`"
