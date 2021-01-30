@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     env.imageTag = sh (script: 'git rev-parse --short HEAD ${GIT_COMMIT}', returnStdout: true).trim()
-                    env.newImageName = ${IMAGE_REPO}/gcp-application:${imageTag}
+                    env.newImageName = "${IMAGE_REPO}/gcp-application:${imageTag}"
                     sh "docker tag ${IMAGE_NAME} ${newImageName}"
                     sh "docker login packages.glodon.com -u mcdev -p Glodon@0605"
                     sh "docker push ${image_name_tag}"
