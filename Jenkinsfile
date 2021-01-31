@@ -45,14 +45,24 @@ pipeline {
         }
 
         // 5. 提交编排文件
-        stage("渲染编排文件，并提交到git") {
+        stage("从git仓库中下载k8s渲染编排文件") {
             steps {
                 script {
                     K8S_REPO = "http://root:123qweASD@192.168.162.12/root/gcp-kubernetes.git"
                     sh "git clone ${K8S_REPO}"
                     DIR = "${APP_NAME}"
                     sh "mkdir -p gcp-kubernetes/${DIR}"
-                    sh "cp -r manifests/kubectl/* gcp-kubernetes/${DIR} && cd gcp-kubernetes && pwd && ls"
+                    sh "cp -r manifests/kubectl/* gcp-kubernetes/${DIR}"
+                }
+            }
+        }
+
+        // 5. 提交编排文件
+        stage("渲染编排文件，并提交到git") {
+            steps {
+                script {
+                    DIR = "${APP_NAME}"
+                    sh "cd gcp-kubernetes && pwd && ls"
                     sh "sed -i 's#{{APP_NAME}}#${APP_NAME}#g' `grep {{APP_NAME}} -rl ${DIR}`"
                     sh "sed -i 's#{{IMAGE_NAME}}#${NEW_IMAGE_NAME}#g' `grep {{IMAGE_NAME}} -rl ${DIR}`"
                     sh "cat ${DIR}/deployment.yaml"
