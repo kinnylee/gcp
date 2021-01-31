@@ -62,11 +62,10 @@ pipeline {
             steps {
                 script {
                     DIR = "${APP_NAME}"
-                    sh "cd gcp-kubernetes && pwd && ls"
-                    sh "tree && sed -i 's#{{APP_NAME}}#${APP_NAME}#g' `grep {{APP_NAME}} -rl ${DIR}`"
-                    sh "sed -i 's#{{IMAGE_NAME}}#${NEW_IMAGE_NAME}#g' `grep {{IMAGE_NAME}} -rl ${DIR}`"
-                    sh "cat ${DIR}/deployment.yaml"
-                    sh "git push origin master"
+                    sh "cd gcp-kubernetes && sed -i 's#{{APP_NAME}}#${APP_NAME}#g' `grep {{APP_NAME}} -rl ${DIR}`"
+                    sh "cd gcp-kubernetes && sed -i 's#{{IMAGE_NAME}}#${NEW_IMAGE_NAME}#g' `grep {{IMAGE_NAME}} -rl ${DIR}`"
+                    sh "cd gcp-kubernetes && cat ${DIR}/deployment.yaml"
+                    sh "cd gcp-kubernetes && git push origin master"
                 }
             }
         }
