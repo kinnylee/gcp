@@ -49,7 +49,7 @@ pipeline {
             steps {
                 script {
                     K8S_REPO = "http://root:123qweASD@192.168.162.12/root/gcp-kubernetes.git"
-                    sh "git clone ${K8S_REPO} && git checkout ${env.BRANCH_NAME}"
+                    sh "git clone ${K8S_REPO} && git checkout ${env.BRANCH_NAME} && git pull"
                     DIR = "${APP_NAME}"
                     sh "mkdir -p gcp-kubernetes/${DIR}"
                     sh "cp -r manifests/kubectl/* gcp-kubernetes/${DIR}"
@@ -66,7 +66,7 @@ pipeline {
                     sh "cd gcp-kubernetes && sed -i 's#{{ENV}}#${env.BRANCH_NAME}#g' `grep {{ENV}} -rl ${DIR}`"
                     sh "cd gcp-kubernetes && sed -i 's#{{IMAGE_NAME}}#${NEW_IMAGE_NAME}#g' `grep {{IMAGE_NAME}} -rl ${DIR}`"
                     sh "cd gcp-kubernetes && cat ${DIR}/deployment.yaml"
-                    sh "cd gcp-kubernetes && git pull && git add . && git commit -m 'update image' && git push origin ${env.BRANCH_NAME}"
+                    sh "cd gcp-kubernetes && git add . && git commit -m 'update image' && git push origin ${env.BRANCH_NAME}"
                     sh "rm -rf gcp-kubernetes"
                 }
             }
