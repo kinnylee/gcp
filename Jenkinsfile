@@ -31,6 +31,7 @@ pipeline {
                     NEW_IMAGE_NAME = "${IMAGE_REPO}/${APP_NAME}:${COMMIT_ID}"
                     sh "docker tag ${IMAGE_NAME} ${NEW_IMAGE_NAME}"
 //                     sh "docker login packages.glodon.com -u mcdev -p Glodon@0605"
+                    sh "docker login registry.cn-beijing.aliyuncs.com -u ymkinnylee -p wrz,829475"
                     sh "docker push ${NEW_IMAGE_NAME}"
 
                 }
