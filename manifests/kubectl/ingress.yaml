@@ -4,7 +4,7 @@ metadata:
   name: {{APP_NAME}}
 spec:
   rules:
-    - host: {{APP_NAME}}.glodon.com
+    - host: {{APP_NAME}}-{{ENV}}.glodon.com
       http:
         paths:
           - backend:

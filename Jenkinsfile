@@ -30,7 +30,6 @@ pipeline {
                     COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
                     NEW_IMAGE_NAME = "${IMAGE_REPO}/${APP_NAME}:${COMMIT_ID}"
                     sh "docker tag ${IMAGE_NAME} ${NEW_IMAGE_NAME}"
-//                     sh "docker login packages.glodon.com -u mcdev -p Glodon@0605"
                     sh "docker login registry.cn-beijing.aliyuncs.com -u ymkinnylee -p wrz,829475"
                     sh "docker push ${NEW_IMAGE_NAME}"
 
@@ -49,8 +48,9 @@ pipeline {
         stage("从git仓库中下载k8s渲染编排文件") {
             steps {
                 script {
+                    env.BRANCH_NAME = sh(returnStdout: true, script: 'git symbolic-ref --short -q HEAD').trim()
                     K8S_REPO = "http://root:123qweASD@192.168.162.12/root/gcp-kubernetes.git"
-                    sh "git clone ${K8S_REPO}"
+                    sh "git clone ${K8S_REPO} && git checkout ${BRANCH_NAME}"
                     DIR = "${APP_NAME}"
                     sh "mkdir -p gcp-kubernetes/${DIR}"
                     sh "cp -r manifests/kubectl/* gcp-kubernetes/${DIR}"
@@ -64,6 +64,7 @@ pipeline {
                 script {
                     DIR = "${APP_NAME}"
                     sh "cd gcp-kubernetes && sed -i 's#{{APP_NAME}}#${APP_NAME}#g' `grep {{APP_NAME}} -rl ${DIR}`"
+                    sh "cd gcp-kubernetes && sed -i 's#{{ENV}}#${BRANCH_NAME}#g' `grep {{ENV}} -rl ${DIR}`"
                     sh "cd gcp-kubernetes && sed -i 's#{{IMAGE_NAME}}#${NEW_IMAGE_NAME}#g' `grep {{IMAGE_NAME}} -rl ${DIR}`"
                     sh "cd gcp-kubernetes && cat ${DIR}/deployment.yaml"
                     sh "cd gcp-kubernetes && git add . && git commit -m 'update image' && git push origin master"
