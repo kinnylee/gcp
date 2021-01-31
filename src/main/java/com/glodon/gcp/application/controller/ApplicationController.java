@@ -13,6 +13,11 @@ public class ApplicationController {
     @Value ("${version}")
     String version;
 
+    @GetMapping("/")
+    public String index() {
+        return "Welcome to gcp application";
+    }
+
     @GetMapping("/health")
     public String health(){
         return "ok";
