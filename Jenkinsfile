@@ -66,6 +66,7 @@ pipeline {
                     sh "cd gcp-kubernetes && sed -i 's#{{IMAGE_NAME}}#${NEW_IMAGE_NAME}#g' `grep {{IMAGE_NAME}} -rl ${DIR}`"
                     sh "cd gcp-kubernetes && cat ${DIR}/deployment.yaml"
                     sh "cd gcp-kubernetes && git add . && git commit -m 'update image' && git push origin master"
+                    sh "rm -rf gcp-kubernetes"
                 }
             }
         }
