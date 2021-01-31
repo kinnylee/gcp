@@ -22,5 +22,19 @@ spec:
             - containerPort: 8080
               protocol: TCP
           resources: {}
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /health
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 120
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /health
+              scheme: HTTP
 #      imagePullSecrets:
 #        - name: mc-repositry

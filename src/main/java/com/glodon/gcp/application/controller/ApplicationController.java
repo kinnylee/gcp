@@ -15,7 +15,7 @@ public class ApplicationController {
 
     @GetMapping("/")
     public String index() {
-        return "Welcome to gcp application";
+        return "Welcome to gcp application, version is " + version;
     }
 
     @GetMapping("/health")
