@@ -22,6 +22,12 @@ spec:
             - containerPort: 8080
               protocol: TCP
           resources: {}
+          env:
+            - name: ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: ENV
           livenessProbe:
             httpGet:
               port: 8080
