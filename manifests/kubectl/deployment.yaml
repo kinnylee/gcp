@@ -22,3 +22,5 @@ spec:
             - containerPort: 8080
               protocol: TCP
           resources: {}
+      imagePullSecrets:
+        - name: mc-repositry
