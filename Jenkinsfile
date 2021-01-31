@@ -49,7 +49,7 @@ pipeline {
             steps {
                 script {
                     K8S_REPO = "http://root:123qweASD@192.168.162.12/root/gcp-kubernetes.git"
-                    sh "git clone ${K8S_REPO} && git checkout ${env.BRANCH_NAME} && git pull"
+                    sh "git clone ${K8S_REPO} && cd gcp-kubernetes && git checkout ${env.BRANCH_NAME} && git pull"
                     DIR = "${APP_NAME}"
                     sh "mkdir -p gcp-kubernetes/${DIR}"
                     sh "cp -r manifests/kubectl/* gcp-kubernetes/${DIR}"
