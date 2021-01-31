@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        IMAGE_REPO = "packages.glodon.com/docker-cornerstoneplatform-releases"
+        IMAGE_REPO = "registry.cn-beijing.aliyuncs.com/kinnylee-pub"
         APP_NAME = "gcp-application"
         IMAGE_NAME = "${IMAGE_REPO}/${APP_NAME}:latest"
     }
@@ -30,7 +30,7 @@ pipeline {
                     COMMIT_ID = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
                     NEW_IMAGE_NAME = "${IMAGE_REPO}/${APP_NAME}:${COMMIT_ID}"
                     sh "docker tag ${IMAGE_NAME} ${NEW_IMAGE_NAME}"
-                    sh "docker login packages.glodon.com -u mcdev -p Glodon@0605"
+//                     sh "docker login packages.glodon.com -u mcdev -p Glodon@0605"
                     sh "docker push ${NEW_IMAGE_NAME}"
 
                 }
